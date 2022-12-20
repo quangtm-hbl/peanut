@@ -17,7 +17,7 @@ type Server struct {
 	Store  *gorm.DB
 }
 
-func SetupServer(s *gorm.DB) Server {
+func SetupServer(store *gorm.DB) Server {
 	// Init router
 	r := gin.New()
 
@@ -47,8 +47,15 @@ func SetupServer(s *gorm.DB) Server {
 	// Config route
 	v1 := r.Group("api/v1")
 	{
-		userCtrl := controller.NewUserController(s)
+		userCtrl := controller.NewUserController(store)
+		bookCrtl := controller.NewBookController(store)
+		auth := v1.Group("/auth")
+		{
+			auth.POST("/login", userCtrl.Login)
+			auth.POST("/signup", userCtrl.CreateUser)
+		}
 		users := v1.Group("/users")
+		users.Use(middleware.Authentication)
 		{
 			users.GET("", userCtrl.GetUsers)
 			users.POST("", userCtrl.CreateUser)
@@ -56,6 +63,17 @@ func SetupServer(s *gorm.DB) Server {
 			// users.PATCH("/:id", userCtrl.UpdateUser)
 			// users.DELETE("/:id", userCtrl.DeleteUserByID)
 		}
+
+		books := v1.Group("/books")
+		books.Use(middleware.Authentication)
+		{
+			books.GET("", bookCrtl.GetBooks)
+			books.POST("", bookCrtl.CreateBook)
+			books.POST("/:id", bookCrtl.GetBook)
+			books.PUT("/:id", bookCrtl.UpdateBook)
+			books.DELETE("/:id", bookCrtl.DeleteBook)
+		}
+
 	}
 
 	// health check
@@ -64,7 +82,7 @@ func SetupServer(s *gorm.DB) Server {
 	})
 
 	return Server{
-		Store:  s,
+		Store:  store,
 		Router: r,
 	}
 }
