@@ -63,10 +63,12 @@ func (c *BookController) CreateBook(ctx *gin.Context) {
 
 func (c *BookController) UpdateBook(ctx *gin.Context) {
 	bookId := ctx.Param("id")
-	ID, _ := strconv.Atoi(bookId)
+	id, _ := strconv.Atoi(bookId)
 	updateForm := domain.UpdateBookForm{}
-	bindJSON(ctx, &updateForm)
-	newbook, err := c.Usecase.UpdateBook(updateForm, ID)
+	if !bindJSON(ctx, &updateForm) {
+		return
+	}
+	newbook, err := c.Usecase.UpdateBook(updateForm, id)
 	if err != nil {
 		ctx.JSON(http.StatusBadRequest, domain.Response{false, nil, err.Error()})
 		return

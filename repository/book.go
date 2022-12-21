@@ -23,7 +23,7 @@ func NewBookRepo(db *gorm.DB) BookRepo {
 }
 
 func (r *bookRepo) GetBooks() (books []domain.Book, err error) {
-	r.DB.Raw("SELECT * FROM books").Scan(&books)
+	r.DB.Find(&books)
 	return
 }
 
