@@ -69,7 +69,7 @@ func SetupServer(store *gorm.DB) Server {
 		{
 			books.GET("", bookCrtl.GetBooks)
 			books.POST("", bookCrtl.CreateBook)
-			books.POST("/:id", bookCrtl.GetBook)
+			books.GET("/:id", bookCrtl.GetBook)
 			books.PUT("/:id", bookCrtl.UpdateBook)
 			books.DELETE("/:id", bookCrtl.DeleteBook)
 		}

@@ -3,8 +3,6 @@ package usecase
 import (
 	"peanut/domain"
 	"peanut/repository"
-
-	"gorm.io/gorm"
 )
 
 type BookUsecase interface {
@@ -19,9 +17,9 @@ type bookUsecase struct {
 	BookRepo repository.BookRepo
 }
 
-func NewBookUsecase(db *gorm.DB) BookUsecase {
+func NewBookUsecase(r repository.BookRepo) BookUsecase {
 	return &bookUsecase{
-		BookRepo: repository.NewBookRepo(db),
+		BookRepo: r,
 	}
 }
 
