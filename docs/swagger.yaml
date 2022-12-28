@@ -1,0 +1,117 @@
+basePath: /api/v1
+definitions:
+  ErrorDetail:
+    properties:
+      error_code:
+        type: string
+      error_message:
+        type: string
+      field:
+        type: string
+    type: object
+  ErrorResponse:
+    properties:
+      code:
+        type: string
+      debug_message:
+        type: string
+      error_details:
+        items:
+          $ref: '#/definitions/ErrorDetail'
+        type: array
+    type: object
+  LoginForm:
+    properties:
+      password:
+        type: string
+      username:
+        type: string
+    type: object
+  Response:
+    properties:
+      data: {}
+      message:
+        type: string
+      success:
+        type: boolean
+    type: object
+  User:
+    type: object
+host: localhost:8080
+info:
+  contact:
+    email: support@swagger.io
+    name: API Support
+    url: http://www.swagger.io/support
+  description: This is a sample server celler server.
+  license:
+    name: Apache 2.0
+    url: http://www.apache.org/licenses/LICENSE-2.0.html
+  termsOfService: http://swagger.io/terms/
+  title: Swagger Example API
+  version: "1.0"
+paths:
+  /login:
+    post:
+      consumes:
+      - application/json
+      description: login
+      parameters:
+      - description: Body
+        in: body
+        name: json
+        required: true
+        schema:
+          $ref: '#/definitions/LoginForm'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/Response'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/Response'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/Response'
+      summary: login
+      tags:
+      - Auth
+  /signup:
+    post:
+      consumes:
+      - application/json
+      description: register
+      parameters:
+      - description: Body
+        in: body
+        name: json
+        required: true
+        schema:
+          $ref: '#/definitions/User'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/Response'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/ErrorResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/Response'
+      summary: register
+      tags:
+      - Auth
+securityDefinitions:
+  BasicAuth:
+    type: basic
+swagger: "2.0"
