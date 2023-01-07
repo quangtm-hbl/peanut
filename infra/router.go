@@ -49,6 +49,7 @@ func SetupServer(store *gorm.DB) Server {
 	{
 		userCtrl := controller.NewUserController(store)
 		bookCrtl := controller.NewBookController(store)
+		contentCtrl := controller.NewContentController(store)
 		auth := v1.Group("/auth")
 		{
 			auth.POST("/login", userCtrl.Login)
@@ -72,6 +73,13 @@ func SetupServer(store *gorm.DB) Server {
 			books.GET("/:id", bookCrtl.GetBook)
 			books.PUT("/:id", bookCrtl.UpdateBook)
 			books.DELETE("/:id", bookCrtl.DeleteBook)
+		}
+
+		contents := v1.Group("/contents")
+		contents.Use(middleware.Authentication)
+		{
+			contents.GET("", contentCtrl.GetContents)
+			contents.POST("", contentCtrl.CreateContent)
 		}
 
 	}

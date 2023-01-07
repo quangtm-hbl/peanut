@@ -7,6 +7,6 @@ import (
 )
 
 func Migration(DB *gorm.DB) {
-	DB.AutoMigrate(&domain.User{}, &domain.Book{})
+	DB.AutoMigrate(&domain.User{}, &domain.Book{}, &domain.Content{})
 	return
 }
