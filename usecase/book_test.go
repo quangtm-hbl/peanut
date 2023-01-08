@@ -2,14 +2,13 @@ package usecase_test
 
 import (
 	"errors"
+	"peanut/domain"
 
 	. "github.com/onsi/ginkgo/v2"
 	. "github.com/onsi/gomega"
-
-	"peanut/domain"
 )
 
-var _ = Describe("Usecase", func() {
+var _ = Describe("Book", func() {
 
 	var book domain.Book
 	var updatingBookForm domain.UpdateBookForm
@@ -140,4 +139,5 @@ var _ = Describe("Usecase", func() {
 			})
 		})
 	})
+
 })

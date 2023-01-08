@@ -20,13 +20,28 @@ func NewContentRepo(db *gorm.DB) ContentRepo {
 }
 
 func (r *contentRepo) GetContents() (contents []domain.Content, err error) {
-	r.DB.Find(&contents)
+	result := r.DB.Find(&contents)
+	if result.Error != nil {
+		return nil, result.Error
+	}
 	return
 }
 
 func (r *contentRepo) CreateContent(c domain.Content) (newcontent *domain.Content, err error) {
-	newcontent = &domain.Content{Thumbnail: c.Thumbnail, Name: c.Name, Media: c.Media, Description: c.Description, Playtime: c.Playtime, Resolution: c.Resolution, ARwidth: c.ARwidth, ARheight: c.ARheight, Fever: c.Fever, Ondemand: c.Ondemand}
-	result := r.DB.Create(c)
+	newcontent = &domain.Content{
+		Model:       gorm.Model{},
+		Thumbnail:   c.Thumbnail,
+		Name:        c.Name,
+		Media:       c.Media,
+		Description: c.Description,
+		Playtime:    c.Playtime,
+		Resolution:  c.Resolution,
+		ARwidth:     c.ARwidth,
+		ARheight:    c.ARheight,
+		Fever:       c.Fever,
+		Ondemand:    c.Ondemand,
+	}
+	result := r.DB.Create(newcontent)
 	if result.Error != nil {
 		return nil, result.Error
 	}
