@@ -15,7 +15,9 @@ import (
 )
 
 var bookRepo *mock.MockBookRepo
+var contentRepo *mock.MockContentRepo
 var bookUc usecase.BookUsecase
+var contentUc usecase.ContentUsecase
 
 func TestUsecase(t *testing.T) {
 	RegisterFailHandler(Fail)
@@ -39,5 +41,7 @@ var _ = BeforeSuite(func() {
 	ctrl := gomock.NewController(GinkgoT())
 	defer ctrl.Finish()
 	bookRepo = mock.NewMockBookRepo(ctrl)
+	contentRepo = mock.NewMockContentRepo(ctrl)
 	bookUc = usecase.NewBookUsecase(bookRepo)
+	contentUc = usecase.ContentUsecase(contentRepo)
 })
