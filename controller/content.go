@@ -22,6 +22,17 @@ func NewContentController(db *gorm.DB) *ContentController {
 	}
 }
 
+// ListContent godoc
+//
+//	@Summary		content
+//	@Description	content
+//	@Tags			Content
+//	@Accept			json
+//	@Produce		json
+//	@Success		200	{object}	[]domain.Content
+//	@Failure		400	{object}	domain.ErrorResponse
+//	@Failure		500	{object}	domain.ErrorResponse
+//	@Router			/contents [get]
 func (c *ContentController) GetContents(ctx *gin.Context) {
 	contents, err := c.Usecase.GetContents()
 	if err != nil {
@@ -35,6 +46,27 @@ func (c *ContentController) GetContents(ctx *gin.Context) {
 	})
 }
 
+// CreateContent godoc
+//
+//	@Summary		content
+//	@Description	content
+//	@Tags			Content
+//	@Accept			json
+//	@Produce		json
+//	@Param			Thumbnail	formData	file	true	"file"
+//	@Param			Media		formData	file	true	"file"
+//	@Param			Name		formData	string	true	"string"	minlength(1)	maxlength(30)
+//	@Param			Description	formData	string	true	"string"	minlength(0)	maxlength(500)
+//	@Param			PlayTime	formData	int		true	"int"
+//	@Param			Resolution	formData	int		true	"int"
+//	@Param			ARheight	formData	int		true	"int"
+//	@Param			ARwidth		formData	int		true	"int"
+//	@Param			Fever		formData	boolean	false	"boolean"
+//	@Param			Ondemand	formData	boolean	false	"boolean"
+//	@Success		200			{object}	domain.Content
+//	@Failure		400			{object}	domain.ErrorResponse
+//	@Failure		500			{object}	domain.ErrorResponse
+//	@Router			/contents [post]
 func (c *ContentController) CreateContent(ctx *gin.Context) {
 	thumbnailDir := os.Getenv("UPLOAD_THUMBNAIL_PATH")
 	mediaDir := os.Getenv("UPLOAD_MEDIA_PATH")

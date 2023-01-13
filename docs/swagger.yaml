@@ -1,0 +1,179 @@
+basePath: /api/v1
+definitions:
+  domain.Content:
+    properties:
+      arheight:
+        type: integer
+      arwidth:
+        type: integer
+      createdAt:
+        type: string
+      deletedAt:
+        $ref: '#/definitions/gorm.DeletedAt'
+      description:
+        type: string
+      fever:
+        type: boolean
+      id:
+        type: integer
+      media:
+        type: string
+      name:
+        type: string
+      ondemand:
+        type: boolean
+      playtime:
+        type: integer
+      resolution:
+        type: integer
+      thumbnail:
+        type: string
+      updatedAt:
+        type: string
+    type: object
+  domain.ErrorDetail:
+    properties:
+      error_code:
+        type: string
+      error_message:
+        type: string
+      field:
+        type: string
+    type: object
+  domain.ErrorResponse:
+    properties:
+      code:
+        type: string
+      debug_message:
+        type: string
+      error_details:
+        items:
+          $ref: '#/definitions/domain.ErrorDetail'
+        type: array
+    type: object
+  gorm.DeletedAt:
+    properties:
+      time:
+        type: string
+      valid:
+        description: Valid is true if Time is not NULL
+        type: boolean
+    type: object
+host: localhost:8081
+info:
+  contact:
+    email: support@swagger.io
+    name: API Support
+    url: http://www.swagger.io/support
+  description: This is a sample server celler server.
+  license:
+    name: Apache 2.0
+    url: http://www.apache.org/licenses/LICENSE-2.0.html
+  termsOfService: http://swagger.io/terms/
+  title: Swagger Example API
+  version: "1.0"
+paths:
+  /contents:
+    get:
+      consumes:
+      - application/json
+      description: content
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/domain.Content'
+            type: array
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/domain.ErrorResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/domain.ErrorResponse'
+      summary: content
+      tags:
+      - Content
+    post:
+      consumes:
+      - application/json
+      description: content
+      parameters:
+      - description: file
+        in: formData
+        name: Thumbnail
+        required: true
+        type: file
+      - description: file
+        in: formData
+        name: Media
+        required: true
+        type: file
+      - description: string
+        in: formData
+        maxLength: 30
+        minLength: 1
+        name: Name
+        required: true
+        type: string
+      - description: string
+        in: formData
+        maxLength: 500
+        minLength: 0
+        name: Description
+        required: true
+        type: string
+      - description: int
+        in: formData
+        name: PlayTime
+        required: true
+        type: integer
+      - description: int
+        in: formData
+        name: Resolution
+        required: true
+        type: integer
+      - description: int
+        in: formData
+        name: ARheight
+        required: true
+        type: integer
+      - description: int
+        in: formData
+        name: ARwidth
+        required: true
+        type: integer
+      - description: boolean
+        in: formData
+        name: Fever
+        type: boolean
+      - description: boolean
+        in: formData
+        name: Ondemand
+        type: boolean
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/domain.Content'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/domain.ErrorResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/domain.ErrorResponse'
+      summary: content
+      tags:
+      - Content
+securityDefinitions:
+  BasicAuth:
+    type: basic
+swagger: "2.0"
