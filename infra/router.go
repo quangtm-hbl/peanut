@@ -7,8 +7,12 @@ import (
 	"peanut/controller"
 	"peanut/middleware"
 
+	_ "peanut/docs"
+
 	"github.com/gin-contrib/cors"
 	"github.com/gin-gonic/gin"
+	swaggerFiles "github.com/swaggo/files"
+	ginSwagger "github.com/swaggo/gin-swagger"
 	"gorm.io/gorm"
 )
 
@@ -89,6 +93,8 @@ func SetupServer(store *gorm.DB) Server {
 	r.GET("api/health", func(c *gin.Context) {
 		c.Status(http.StatusOK)
 	})
+
+	r.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerFiles.Handler))
 
 	return Server{
 		Store:  store,
