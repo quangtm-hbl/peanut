@@ -25,7 +25,7 @@ import (
 //	@host		localhost:8081
 //	@BasePath	/api/v1
 
-//	@securityDefinitions.basic	BasicAuth
+// @securityDefinitions.basic	BasicAuth
 func main() {
 	fmt.Println("---- Hello world! ----")
 
